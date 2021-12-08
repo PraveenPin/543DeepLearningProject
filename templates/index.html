@@ -1,0 +1,103 @@
+<!-- [START maps_control_replacement] -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NYC Taxi Fare Prediction</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/map.css') }}" />
+    <script src="{{ url_for('static',filename='js/map2.js') }}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ url_for('static',filename='js/c3-0.7.20/c3.min.js') }}"></script>
+    <link href="{{ url_for('static',filename='js/c3-0.7.20/c3.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+
+    <div class="headerText">
+      <h4>
+        Select the pickup and drop points below to get the fare estimate
+      </h4>
+    </div>
+    <div id="map"></div>
+    <!-- Hide controls until they are moved into the map. -->
+    <div style="display: none">
+      <div class="controls zoom-control">
+        <button class="zoom-control-in" title="Zoom In">+</button>
+        <button class="zoom-control-out" title="Zoom Out">−</button>
+      </div>
+
+      <div class="controls fullscreen-control">
+        <button title="Toggle Fullscreen">
+          <div
+            class="fullscreen-control-icon fullscreen-control-top-left"
+          ></div>
+          <div
+            class="fullscreen-control-icon fullscreen-control-top-right"
+          ></div>
+          <div
+            class="fullscreen-control-icon fullscreen-control-bottom-left"
+          ></div>
+          <div
+            class="fullscreen-control-icon fullscreen-control-bottom-right"
+          ></div>
+        </button>
+      </div>
+    </div>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeBTWM_B6DnNpOiDFJ9YYgw8vmTZpShkE&callback=initMap&v=weekly"
+      async
+    ></script>
+    
+
+    <div id="div-form" class="formDiv">
+      <h4>Enter the inputs below: </h4>
+      <!-- <p>Please complete the information below and click Submit.</p> -->
+      <form id="submitFareForm" method="post">
+            <div class="rowOne">
+              <div class="form-group">
+                <label for="passengers">Passengers:</label>
+                <input type="number" class="form-control" onkeypress="return event.charCode >= 48" min="1" max="6" name="passengers" id="passengers" class="data-entry" />  
+              </div>
+              
+              <div class="form-group">
+                <label for="start">Trip Date:</label>
+                <input type="date" id="date" class="form-control" name="trip-start" value="2018-07-22" min="2009-01-01">
+              </div>
+              
+              <div class="form-group">
+                <label for="time">Trip Time:</label>
+                <input type="time" id="time"class="form-control"  name="time" min="00:00" max="23:59">
+                <small>Peak hours are from 6pm to 9pm</small><br/><br/>
+              </div>
+            </div>
+            <div class="rowOne">
+              <div class="form-group">
+                <span><input type="reset" class="button" value="RESET" />
+              </div>
+              <div class="form-group">
+                <input type="submit" class="button" value="SUBMIT"/></span>
+              </div>
+            </div>
+
+          
+      </form>
+    </div><!--end div sample-->
+    <div style="padding: 8px;" id="finalDiv">
+      <h4>List of near buy rides with less fare (Fare Estimates +/- 1.7$)</h4>
+      <table id="tablePred" class="table">
+<!--        <thead id="tableHeader" class="thead-dark"></thead>-->
+  
+      </table>
+      <div>
+        <h4>Plot to show the best rides within 15 minute interval</h4>
+        <canvas id="myChart" width="600px" height=""400></canvas>
+      </div>
+
+
+    </div>
+
+  </body>
+</html>
+<!-- [END maps_control_replacement] -->
