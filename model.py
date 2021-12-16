@@ -117,6 +117,9 @@ if __name__ == '__main__':
     )
 
     model.save('new_model')
+    loss, mse, mae = model.evaluate(
+    x=test_dataset, steps=len(test_file_names)*10,callbacks=None, max_queue_size=32, workers=6, use_multiprocessing=True,
+    return_dict=False)
 
     plt.figure(figsize=(20,10))
     plt.plot(hist.history['loss'])
